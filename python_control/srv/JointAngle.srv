@@ -1,0 +1,3 @@
+int8 request
+---                         # Demarcation
+float32[] joint_angles    
