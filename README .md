@@ -1,40 +1,95 @@
-we using ros noetic on ubuntu 20.04
-# OpenManipulator with TurtleBot3
-1.installing the open_manipulator_with_tb3 package, install turtlebot3 and open_manipulator packages on the Remote PC 
-1.1 The TurtleBot3 Simulation Package requires turtlebot3 and turtlebot3_msgs packages as prerequisite. Without these prerequisite packages, the Simulation cannot be launched.
-$ cd ~/catkin_ws/src/
-$ git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
-$ cd ~/catkin_ws && catkin_make
+# Turtlebot3 Ball Thrower Debi Robotics Challenge-2023
 
-2.Download and build the package using the following commands in order to use assembled OpenMANIPULATOR-X.
-$ cd ~/catkin_ws/src/
-$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_manipulation.git
-$ git clone https://github.com/ROBOTIS-GIT/turtlebot3_manipulation_simulations.git
-$ git clone https://github.com/ROBOTIS-GIT/open_manipulator_dependencies.git
-$ sudo apt install ros-noetic-ros-control* ros-noetic-control* ros-noetic-moveit*
-$ cd ~/catkin_ws && catkin_make
+DEBI Robotics Challenge 2023 is a competition between robots in one-vs-one matches in a predefined playground. The playground is divided into two identical halves separated by a red line mounted on the ground. The main mission for each team is to reduce the number of balls in their area by moving these balls to the opponent's side. Additionally, robots must act autonomously during the match without any human intervention.
 
-''''''''''''after this installation now you have all package required ''''''''''''''
+## System Requirements
 
- -Load TurtleBot3 with OpenMANIPULATOR-X into Gazebo world using this command
-            roslaunch turtlebot3_manipulation_gazebo turtlebot3_manipulation_gazebo.launch
--In order to use Moveit feature, launch move_group node. If you press [▶] button in Gazebo to start simulation, use the following command.
-With a successful launch, “You can start planning now!” message will be printed on the terminal.
-           roslaunch turtlebot3_manipulation_moveit_config move_group.launch
-           
--Use Moveit feature in RViz by reading moveit.rviz file where Moveit enviroment data is configured.
-You can control the mounted manipulator using an interactive marker, and simulate the motion of goal position, which helps preventing a possible physical contact by simulating the motion in advance.
-          roslaunch turtlebot3_manipulation_moveit_config moveit_rviz.launch
-if all above is okay that is agreat step now let`s build our own world and move 3 balls from predefine location to the another side of our map
-first you should add our package turtlebot3_manipulation_simulations to your src in your catkin_ws and then run these command
-           1-     cd catkin_ws 
-           2-     catkin build 
-1-launch turtlebot3_manipulation_simulations/turtlebot3_manipulation_gazebo/launch/full.launch 
-it will open gazebo with our world and rviz to make nivagation then 
-1-in gazebo add path from model_editor_model add debi_balls file that you find in our package copy it and paste in model_editor_model  
-2- then add balls in the predefine locations for ball_1( 0.5,0,0)  ,ball_2 (0.5,-0.4,0) and ball_3   (0.5,-0.8,0)
-3- rivz open navigation node after launch full.launch it launch navigation.launch file in the upper off rviz screen click on 2D pose stimate and make the arrow  direction to top of screen 
-4- then run the trail_l python file to start move ball from robot side to another side using this comand 
-first navigate to turtlebot3_manipulation_gazebo/scripts then open in terminal and run  rosrun trail_1.py or using python3 trail_1.py 
-finally you see robot move 3 ball from its side to the other side 
+- ROS Noetic
+- Ubuntu 20.04
+
+## Setup Instructions
+
+### 1. Installing Dependencies
+
+#### TurtleBot3 Simulation Package
+The TurtleBot3 Simulation Package requires `turtlebot3` and `turtlebot3_msgs` packages as prerequisites. Without these prerequisite packages, the Simulation cannot be launched.
+
+```bash
+cd ~/catkin_ws/src/
+git clone -b noetic-devel https://github.com/ROBOTIS-GIT/turtlebot3_simulations.git
+cd ~/catkin_ws
+catkin_make
+```
+OpenManipulator with TurtleBot3 Download and build the package using the following commands to use the assembled OpenMANIPULATOR-X.
+
+```bash 
+cd ~/catkin_ws/src/
+git clone https://github.com/ROBOTIS-GIT/turtlebot3_manipulation.git
+git clone https://github.com/ROBOTIS-GIT/turtlebot3_manipulation_simulations.git
+git clone https://github.com/ROBOTIS-GIT/open_manipulator_dependencies.git
+sudo apt install ros-noetic-ros-control* ros-noetic-control* ros-noetic-moveit*
+cd ~/catkin_ws && catkin_make
+```
+### 2. Launch Simulation
+Load TurtleBot3 with OpenMANIPULATOR-X into Gazebo world using this command:
+```bash
+roslaunch turtlebot3_manipulation_gazebo turtlebot3_manipulation_gazebo.launch
+```
+In order to use Moveit feature, launch move_group node:
+```bash 
+roslaunch turtlebot3_manipulation_moveit_config move_group.launch
+```
+### 3. Customize the World
+* Add a path from model_editor_model by adding the debi_balls file from our package to your model editor.
+* Place balls in the predefined locations: ball_1 (0.5,0,0), ball_2 (0.5,-0.4,0), and ball_3 (0.5,-0.8,0).
+### 4. Navigation Setup
+Open navigation node in RViz and set the 2D pose estimate arrow direction to the top of the screen.
+### 5. Running the Robot
+  #### 1.For Phase 1 Task:
+  1. Launch the simulation:
+   ``` bash 
+   roslaunch turtlebot3_manipulation_simulations/turtlebot3_manipulation_gazebo/launch/full.launch
+   ```
+
+      1. In Gazebo, add the debi_balls file from model_editor_model to the environment.
+
+      2. Add balls at predefined locations: ball_1 (0.5,0,0), ball_2 (0.5,-0.4,0), and ball_3 (0.5,-0.8,0).
+
+      3.In RViz, open the navigation node and set the 2D pose estimate arrow direction to the top of the screen.
+
+      3. Run the `trail_1.py` script to start moving the balls:
+  
+```bash
+         rosrun turtlebot3_manipulation_gazebo trail_1.py
+ ```
+### 2.For Phase 2 Task:
+
+1.Follow the same setup instructions as Phase 1.
+
+2.Add camera RealSense Gazebo plugin to your simulation setup.
+
+3.Install Gazebo grasp plugin:
+
+```bash
+  sudo apt-get install ros-noetic-gazebo-ros ros-noetic-eigen-conversions ros-noetic-object-recognition-msgs ros-noetic-roslint
+  cd catkin_ws
+  git clone https://github.com/JenniferBuehler/gazebo-pkgs 
+
+ ```
+1.Replace the turtlebot3_manipulation_description and turtlebot3_manipulation_simulations packages with your submitted packages.
+
+2.Add the python_control package to your src in your catkin_ws.
+
+3.Build your workspace:
+```bash 
+cd catkin_ws
+catkin build
+```
+**Now, you can launch the simulation and see the robot move the detected balls from one side to another.**
+
+[Watch the Video](https://youtu.be/LFlbmNxSPBk?si=aGkGv_xGpRHDikNR)
+
+
+**Enjoy the challenge!**
+
 
