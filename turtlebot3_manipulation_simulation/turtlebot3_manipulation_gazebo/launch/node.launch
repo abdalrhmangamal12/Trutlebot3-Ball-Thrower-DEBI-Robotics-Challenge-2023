@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="python_control" type="trial_2.py" name="turtlebot3_wafflepi" output="screen"/>
+    <node pkg="python_control" type="other_node.py" name="vision_modules" output="screen"/>
+</launch>
